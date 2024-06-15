@@ -9,6 +9,19 @@ html, body {
 .card-img-top {
     height: 50%;
 }
+.card-text1 {
+    font-size: 18px; /* Tamaño de fuente */
+    color: #333; /* Color del texto */
+    line-height: 1.5; /* Altura de línea para mejor legibilidad */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+.mdetails{
+    padding: 40px;
+    margin-top: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+}
 
 .precio {
     display: flex;
