@@ -1,57 +1,59 @@
-html, body {
+body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; 
     margin: 0;
-    padding: 0;
 }
 
-.card-img-top {
+.card{
+    border: 2px solid;
+}
+
+.card-text1 {
+    font-size: 20px; 
+    color: #333; 
+    line-height: 1.5; 
+    margin-top: 20px; 
+}
+.card-img-top{
     height: 50%;
 }
-.card-text1 {
-    font-size: 18px; /* Tamaño de fuente */
-    color: #333; /* Color del texto */
-    line-height: 1.5; /* Altura de línea para mejor legibilidad */
-    margin-top: 20px; /* Espaciado superior */
-}
-
-.mdetails{
-    padding: 40px;
-    margin-top: auto;
-    margin-right: 10px;
-    margin-left: 10px;
+.img-fluid{
+    width: 100%;
+    height: 100%;
 }
 
 .precio {
     display: flex;
     justify-content: space-around;
 }
+.mdetails{
+    margin-top: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+  
+}
+
 
 footer {
-    margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: rgb(12, 27, 41);
     color: white;
-    padding: 20px;
+    padding: 10px;
+    width: 100%;
+    margin-top: auto; 
 }
-
-.final .contact-icons img {
-    width: 40px;
-    height: 40px;
-}
-
-.final p {
-    margin: 0;
-    color: white;
+.col{
+    border: 2px solid black;
 }
 
 
+.row .colt {
+    font-size: large;
+    font-weight: bold;
+    background-color: #9d9c9c;
+    border: 2px solid black;
 
-main {
-    flex: 1;
-    overflow-y: auto;
-    padding-bottom: 20px;
 }
