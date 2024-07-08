@@ -205,7 +205,7 @@ function pintarTarjetas(eventos) {
   console.log("Fecha actual:", currentDate);
 
   
-  contenedor.innerHTML = '';
+  
 
   let eventosFiltrados = [];
 
