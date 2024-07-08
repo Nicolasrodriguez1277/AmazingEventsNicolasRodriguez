@@ -218,22 +218,25 @@ function pintarTarjetas(eventos) {
   }
 
   console.log("Eventos filtrados:", eventosFiltrados);
-    eventosFiltrados.forEach(evento => {
-        let tarjeta = document.createElement("div");
-        tarjeta.className = "card";
-        tarjeta.innerHTML = `
-            <img src="${evento.image}" class="card-img-top" alt="${evento.name} Image">
-            <div class="card-body">
-                <h5 class="card-title">${evento.name}</h5>
-                <p class="card-text">${evento.description}</p>
-                <div class="precio">
-                    <p>Price: $${evento.price}</p>
-                    <a href="./Details.html" class="btn btn-primary">Details</a>
-                </div>
-            </div>`;
+for (let i = 0; i < eventosFiltrados.length; i++) {
+    let evento = eventosFiltrados[i];
 
-        contenedor.appendChild(tarjeta);
-    });
+    let tarjeta = document.createElement("div");
+    tarjeta.className = "card";
+    tarjeta.innerHTML = `
+        <img src="${evento.image}" class="card-img-top" alt="${evento.name} Image">
+        <div class="card-body">
+            <h5 class="card-title">${evento.name}</h5>
+            <p class="card-text">${evento.description}</p>
+            <div class="precio">
+                <p>Price: $${evento.price}</p>
+                <a href="./Details.html" class="btn btn-primary">Details</a>
+            </div>
+        </div>`;
+
+    contenedor.appendChild(tarjeta);
+}
+
 }
 
 pintarTarjetas(data.events);
