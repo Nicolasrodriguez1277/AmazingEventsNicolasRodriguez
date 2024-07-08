@@ -195,10 +195,29 @@ const data = {
     ],
   };
 function pintarTarjetas(eventos) {
-    let contenedor = document.getElementById("contenedorTarjetas")
-    let currentDate = (data.currentDate);
-    let eventosFiltrados = eventos.filter(evento => (evento.date) > currentDate);
+    let contenedor = document.getElementById("contenedorTarjetas");
+    if (!contenedor) {
+      console.error("No se encontró el contenedor 'contenedorTarjetas'.");
+      return;
+  }
 
+  let currentDate = new Date(data.currentDate); 
+  console.log("Fecha actual:", currentDate);
+
+  
+  contenedor.innerHTML = '';
+
+  let eventosFiltrados = [];
+
+  
+  for (let i = 0; i < eventos.length; i++) {
+      let eventoDate = new Date(eventos[i].date);
+      if (eventoDate > currentDate) {
+          eventosFiltrados.push(eventos[i]);
+      }
+  }
+
+  console.log("Eventos filtrados:", eventosFiltrados);
     eventosFiltrados.forEach(evento => {
         let tarjeta = document.createElement("div");
         tarjeta.className = "card";
