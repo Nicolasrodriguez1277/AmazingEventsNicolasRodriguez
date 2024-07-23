@@ -185,26 +185,152 @@ const data = {
         }
     ]
 };
-function pintarTarjetas(eventos) {
-    let contenedor = document.getElementById("contenedorTarjetas");
 
-    for (let i = 0; i < eventos.length; i++) {
-        let evento = eventos[i];
-        let tarjeta = document.createElement("div");
-        tarjeta.className = "card";
-        tarjeta.innerHTML = `
-            <img src="${evento.image}" class="card-img-top" alt="${evento.name} Image">
-            <div class="card-body">
-                <h5 class="card-title">${evento.name}</h5>
-                <p class="card-text">${evento.description}</p>
-                <div class="precio">
-                    <p>Price: $${evento.price}</p>
-                    <a href="./Details.html" class="btn btn-primary">Details</a>
+
+data.currentDate
+data.events
+data.events[0].name
+
+let container_cards = document.getElementById("container_cards");
+let container_checkbox_category = document.getElementById("container_checkbox_category");
+let filterSearch = document.getElementById("filter-search")
+let eventsFilteredByDate = filterEventsByDate(data);
+
+
+function showEvents(data, container_cards) {
+    let cardsHTML = "";
+
+    if (data.events.length > 0) {
+        for (let i = 0; i < data.events.length; i++) {
+            cardsHTML += createCard(data.events[i]);
+        }
+        container_cards.innerHTML = cardsHTML;
+
+    } else {
+        container_cards.innerHTML = `
+             <div>
+                    No events found 
                 </div>
-            </div>`;
-
-        contenedor.appendChild(tarjeta);
+        `;
     }
 }
 
-pintarTarjetas(data.events);
+function showCheckBoxCategory(data, container_checkbox_category) {
+    let ckBoxCategoryHTML = "";
+
+    if (data.events.length > 0) {
+
+        let categoriesFromEvents = data.events.map((event) => event.category);
+
+        let categoriesWithoutDuplicates = categoriesFromEvents.filter(
+            (category, index) => categoriesFromEvents.indexOf(category) === index
+        );
+
+        console.log(categoriesWithoutDuplicates);
+
+        for (let i = 0; i < categoriesWithoutDuplicates.length; i++) {
+            ckBoxCategoryHTML += createCheckBoxCategory(categoriesWithoutDuplicates[i]);
+        }
+
+        container_checkbox_category.innerHTML = ckBoxCategoryHTML;
+    }
+}
+
+function createCard(event) {
+
+    let id = event._id;
+    let url = new URLSearchParams({ _id: id });
+
+    let cardHTML = `  
+        <div id="${event._id}" class="card m-3">
+            <img src="${event.image}" class="card-img-top w-100 h-50 object-fit-cover" alt="${event.name}">
+            <div class="card-body text-center">
+                <h5 class="card-title text-capitalize">${event.name}</h5>
+                <p class="card-text">${event.description}</p>
+            </div>
+            <div class="d-flex justify-content-around mb-4">
+                <h4 class="fw-bold fs">Price: <span class=" fw-bold fs-5"> $${event.price} </span></h4>
+                <a class="btn btn-primary" href="./Details.html?${url}">Details</a>
+            </div>
+        </div>
+    `;
+
+    console.log(url);
+    return cardHTML;
+}
+
+function createCheckBoxCategory(event) {
+    let checkboxCategoryHTML = `
+        <div class="form-check me-2">
+            <input class="form-check-input" type="checkbox" value="" id="filter-check-${event}">
+            <label class="form-check-label" for="filter-check-${event}">
+                ${event}
+            </label>
+        </div>
+    `;
+
+    console.log(checkboxCategoryHTML);
+
+    return checkboxCategoryHTML;
+
+}
+
+function filterEventsByDate(data) {
+
+    let eventsFilteredByDate = data.events
+    return eventsFilteredByDate;
+
+
+}
+
+function filterSearchEvents(data, searchText) {
+    let eventsFiltered = data.events.filter(event =>
+        event.name.toLowerCase().includes(searchText)
+        ||
+        event.description.toLowerCase().includes(searchText)
+    )
+
+    console.log(eventsFiltered);
+    return eventsFiltered;
+}
+
+function filterCheckBoxCategory(data, container_checkbox_category) {
+    let checkboxes = container_checkbox_category.querySelectorAll("input[type=checkbox]:checked");
+    let categories = [];
+
+    if (checkboxes.length === 0) {
+        return data.events;
+    }
+
+    checkboxes.forEach(checkbox => {
+        categories.push(checkbox.id.split("-")[2]);
+    });
+
+    console.log(categories);
+
+    let eventsFiltered = data.events.filter(event =>
+        categories.includes(event.category)
+    );
+
+    console.log(eventsFiltered);
+
+    return eventsFiltered;
+}
+
+filterSearch.addEventListener("keyup", () => {
+    let eventsFiltered = filterSearchEvents({ events: eventsFilteredByDate }, filterSearch.value.toLowerCase());
+    eventsFiltered = filterCheckBoxCategory({ events: eventsFiltered }, container_checkbox_category);
+    showEvents({ events: eventsFiltered }, container_cards);
+});
+
+container_checkbox_category.addEventListener("click", () => {
+    let eventsFiltered = filterCheckBoxCategory({ events: eventsFilteredByDate }, container_checkbox_category);
+    eventsFiltered = filterSearchEvents({ events: eventsFiltered }, filterSearch.value.toLowerCase());
+    showEvents({ events: eventsFiltered }, container_cards);
+});
+
+
+
+showCheckBoxCategory(data, container_checkbox_category);
+console.log(eventsFilteredByDate);
+showEvents({ events: eventsFilteredByDate }, container_cards);
